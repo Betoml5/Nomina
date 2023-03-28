@@ -30,6 +30,7 @@ namespace Nomina.ViewModels
             set {
                 vistas = value;
                 PropertyChange();
+                ActualizarBD();
             }
         }
 
@@ -71,8 +72,14 @@ namespace Nomina.ViewModels
 
         private void Crear()
         {
-            EmpleadoCRUD.Crear(Empleado);
-            CambiarVista(Vistas.VerEmpleados);
+
+            if (Empleado != null)
+            {
+                EmpleadoCRUD.Crear(Empleado);
+                CambiarVista(Vistas.VerEmpleados);
+
+            }
+
         }
 
         private void Eliminar()
@@ -103,7 +110,7 @@ namespace Nomina.ViewModels
         }
         private void Cancelar()
         {
-            this.Empleado = null;
+           
             CambiarVista(Vistas.VerEmpleados);
         }
 

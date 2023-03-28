@@ -7,13 +7,13 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:EmpleadoViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Name="empleadosView"
+             x:Name="empleadosView"
              >
     <DockPanel>
 
         <Button Command="{Binding VerCrearCommand}" DockPanel.Dock="Top">Agregar empleado</Button>
         
-        <ItemsControl Name="itemsControlList" ItemsSource="{Binding Empleados}">
+        <ItemsControl Name="itemsControlList" ItemsSource="{Binding Empleados}" Margin="20">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -21,9 +21,9 @@
                         <TextBlock Text="{Binding Nombre}"></TextBlock>
                         <Button
                             Command="{Binding Source={x:Reference empleadosView},
-                            Path=DataContext.VerCrearCommand}"
+                            Path=DataContext.VerActualizarCommand}"
                             CommandParameter="{Binding .}"
-                            ></Button>
+                            >Editar</Button>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
