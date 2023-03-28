@@ -17,8 +17,8 @@
         <ComboBox 
             SelectedValuePath="Id"
             DisplayMemberPath="Nombre"
-            SelectedValue="{Binding Empleado.IdCategoria}">
             ItemsSource="{Binding Categorias}"
+            SelectedValue="{Binding Empleado.IdCategoria}">
         </ComboBox>
 
 
