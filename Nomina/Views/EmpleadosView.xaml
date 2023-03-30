@@ -3,30 +3,107 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="Font"
              xmlns:local="clr-namespace:Nomina.Views" xmlns:viewmodels="clr-namespace:Nomina.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:EmpleadoViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="empleadosView"
+            
              >
-    <DockPanel>
+    <Grid>
 
-        <Button Command="{Binding VerCrearCommand}" DockPanel.Dock="Top">Agregar empleado</Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".2*"></ColumnDefinition>
+            <ColumnDefinition Width=".5*"></ColumnDefinition>
+            <ColumnDefinition Width=".2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel   Background="#393E46" Grid.Column="0" HorizontalAlignment="Left">
+            <Button Margin="0,10" Padding="10" Command="{Binding VerCrearCommand}" Background="Transparent" BorderThickness="0">    
+                <Image Source="/Images/user-add.png" Width="30" Height="30" />
+            </Button>   
+        </StackPanel>
         
-        <ItemsControl Name="itemsControlList" ItemsSource="{Binding Empleados}" Margin="20">
+        
+        
+
+        <ItemsControl Name="itemsControlList" ItemsSource="{Binding Empleados}" Margin="20"  Grid.Column="1" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <Label>Nombre:</Label>
-                        <TextBlock Text="{Binding Nombre}"></TextBlock>
-                        <Button
+                    <Border BorderBrush="#EEEEEE" BorderThickness="1" CornerRadius="5" Padding="12" Margin="0,6" >
+                        <StackPanel>
+                            <TextBlock Foreground="#fff">Nombre: <Run Text="{Binding Nombre}"></Run></TextBlock>
+                            <TextBlock Foreground="#fff">Sueldo: <Run Text="{Binding Sueldo}"></Run></TextBlock>
+                            <TextBlock Foreground="#fff">Categoria: <Run Text="{Binding IdCategoriaNavigation.Nombre}"></Run></TextBlock>
+                            <TextBlock Foreground="#fff">Activo: <Run>
+                                <Run.Style>
+                                    <Style TargetType="Run">
+                                           <Style.Triggers>
+                                               <DataTrigger Binding="{Binding Activo}" Value="1">
+                                                   <Setter Property="Text" Value="Activo"></Setter>
+                                               </DataTrigger>
+                                               <DataTrigger Binding="{Binding Activo}" Value="0">
+                                                   <Setter Property="Text" Value="Inactivo"></Setter>
+                                               </DataTrigger>
+                                           </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run></TextBlock>
+
+                            <CheckBox IsChecked="{Binding Activo}"
+                            Command="{Binding Source={x:Reference empleadosView},
+                            Path=DataContext.ActualizarEstadoCommand}"
+                            CommandParameter="{Binding .}">
+                                
+                            </CheckBox>
+
+
+
+                            <WrapPanel HorizontalAlignment="Right">
+                                <Button
                             Command="{Binding Source={x:Reference empleadosView},
                             Path=DataContext.VerActualizarCommand}"
                             CommandParameter="{Binding .}"
-                            >Editar</Button>
-                    </StackPanel>
+                            Background="Transparent" BorderThickness="0"
+                            >
+                                    <Image Source="/Images/edit.png"  Width="20" Height="20"/>
+                                </Button>
+                                <Button
+                            Command="{Binding Source={x:Reference empleadosView},
+                            Path=DataContext.BorrarCommand}"
+                            CommandParameter="{Binding .}"
+                            Background="Transparent" BorderThickness="0" Margin="10,0"
+                            >
+                                    <Image Source="/Images/delete.png" Width="20" Height="20" />
+                                </Button>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </DockPanel>
+
+        <StackPanel Grid.Column="2" Background="#393E46">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="#fff"></Setter>
+                    <Setter Property="Padding" Value="12"></Setter>
+                    <Setter Property="FontFamily" Value="Arial"></Setter>
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBlock>Total de empleados: <Run Text="{Binding Path=Empleados.Count, Mode=OneWay}"></Run></TextBlock>
+
+            <TextBlock >Total en categoria A: <Run Text="{Binding CategoriaA}"></Run></TextBlock>
+            <TextBlock >Total en categoria B: <Run Text="{Binding CategoriaB}"></Run></TextBlock>
+
+            <TextBlock>Sueldo mas alto: <Run Text="{Binding SueldoMasAlto, StringFormat='{}{0:c}'}"></Run></TextBlock>
+            <TextBlock>Sueldo mas bajo: <Run Text="{Binding SueldoMasBajo, StringFormat='{}{0:c}'}"></Run></TextBlock>
+            <TextBlock>Sueldo promedio de sueldos: <Run Text="{Binding SueldoPromedio, StringFormat='{}{0:c}'}"></Run></TextBlock>
+        </StackPanel>
+       
+    </Grid>
 </UserControl>

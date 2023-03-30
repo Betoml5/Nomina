@@ -17,5 +17,7 @@ namespace Nomina.CRUD
             return contenedor.Categoria.OrderBy(x => x);
         }
 
+        
+
     }
 }

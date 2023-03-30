@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nomina.Views" xmlns:viewmodels="clr-namespace:Nomina.ViewModels"
         mc:Ignorable="d"
-        Title="IndexEmpleado" Height="450" Width="800">
+        Title="IndexEmpleado" Height="450" Width="800"
+         Background="#222831"
+        >
 
     <Window.DataContext>
         <viewmodels:EmpleadoViewModel></viewmodels:EmpleadoViewModel>

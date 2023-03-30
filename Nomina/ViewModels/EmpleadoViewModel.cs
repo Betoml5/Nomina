@@ -29,10 +29,67 @@ namespace Nomina.ViewModels
             get { return vistas; }
             set {
                 vistas = value;
-                PropertyChange();
                 ActualizarBD();
+                PropertyChange();
             }
         }
+
+        private int categoriaA;
+
+        public int CategoriaA
+        {
+            get {
+                    return
+                    EmpleadoCRUD.ObtenerPorCategoria(1);
+                    PropertyChange();
+            }
+            set { categoriaA = value; }
+        }
+
+        private int categoriaB;
+
+        public int CategoriaB
+        {
+            get {
+                    return
+                    EmpleadoCRUD.ObtenerPorCategoria(2);
+                    PropertyChange();
+            }
+            set { categoriaB = value; }
+        }
+
+        private decimal sueldoMasAlto;
+
+        public decimal SueldoMasAlto
+        {
+            get {
+                return
+                    ObtenerSueldoMasAlto();
+                }
+            set { sueldoMasAlto = value; }
+        }
+
+        private decimal sueldoMasBajo;
+
+        public decimal SueldoMasBajo
+        {
+            get {
+                return ObtenerSueldoMasBajo();
+                    
+                    }
+            set { sueldoMasBajo = value; }
+        }
+
+        private decimal sueldoPromedio;
+
+        public decimal SueldoPromedio
+        {
+            get { return ObtenerSueldoPromedio(); }
+            set { sueldoPromedio = value; }
+        }
+
+
+
 
         public Empleado Empleado { get; set; }   
         public ICommand CrearCommand { get; set; }
@@ -43,12 +100,13 @@ namespace Nomina.ViewModels
         public ICommand VerActualizarCommand { get; set; }
         public ICommand CancelarCommand { get; set; }
         public ICommand CambiarVistaCommand { get; set; }
+        public ICommand ActualizarEstadoCommand { get; set; }
 
 
         public EmpleadoViewModel()
         {
             CrearCommand = new RelayCommand(Crear);
-            BorrarCommand = new RelayCommand(Eliminar);
+            BorrarCommand = new RelayCommand<Empleado>(Eliminar);
             ActualizarCommand = new RelayCommand(Actualizar);
 
             CancelarCommand = new RelayCommand(Cancelar);
@@ -57,9 +115,11 @@ namespace Nomina.ViewModels
             VerBorrarCommand = new RelayCommand<Empleado>(VerBorrar);
             VerActualizarCommand = new RelayCommand<Empleado>(VerActualizar);
 
-
+            ActualizarEstadoCommand = new RelayCommand<Empleado>(ActualizarEstado);
 
             CambiarVistaCommand = new RelayCommand<Vistas>(CambiarVista);
+
+       
 
             ActualizarBD();
             PropertyChange();
@@ -77,12 +137,11 @@ namespace Nomina.ViewModels
             {
                 EmpleadoCRUD.Crear(Empleado);
                 CambiarVista(Vistas.VerEmpleados);
-
             }
 
         }
 
-        private void Eliminar()
+        private void Eliminar(Empleado Empleado)
         {
             EmpleadoCRUD.Eliminar(Empleado);
             CambiarVista(Vistas.VerEmpleados);
@@ -108,9 +167,34 @@ namespace Nomina.ViewModels
             this.Empleado = Empleado;
             CambiarVista(Vistas.VerEliminarEmpleado);
         }
+
+        private decimal ObtenerSueldoMasAlto()
+        {
+
+           return Empleados.Max(x => x.Sueldo);
+         
+        }
+
+        private decimal ObtenerSueldoMasBajo()
+        {
+            return Empleados.Min(x => x.Sueldo);
+            
+        }
+
+        private decimal ObtenerSueldoPromedio()
+        {
+            return Empleados.Average(x => x.Sueldo);
+        }
+
+
+        private void ActualizarEstado(Empleado Empleado)
+        {
+            EmpleadoCRUD.CambiarEstadoPorId(Empleado);
+            PropertyChange();
+        }
+
         private void Cancelar()
         {
-           
             CambiarVista(Vistas.VerEmpleados);
         }
 

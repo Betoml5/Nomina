@@ -8,6 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\back.png" />
+    <None Remove="Images\delete.png" />
+    <None Remove="Images\edit.png" />
+    <None Remove="Images\user-add.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\back.png" />
+    <Resource Include="Images\delete.png" />
+    <Resource Include="Images\edit.png" />
+    <Resource Include="Images\user-add.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
