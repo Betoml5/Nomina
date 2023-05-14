@@ -46,6 +46,7 @@ namespace Nomina.CRUD
                 contenedor.SaveChanges();
                 contenedor.Entry(Empleado).Reload();
             }
+
         }
 
         public void Eliminar(Empleado Empleado)
